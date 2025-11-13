@@ -1,0 +1,15 @@
+pcm.!default {
+    type asym
+    playback.pcm "speaker"
+    capture.pcm "mic"
+}
+
+pcm.speaker {
+    type plug
+    slave.pcm "hw:1,0"  # Adjust to your USB audio device
+}
+
+pcm.mic {
+    type plug
+    slave.pcm "hw:1,0"
+}

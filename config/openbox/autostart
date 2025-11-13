@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Wyłącz wygaszacz
+xset s off
+xset s noblank
+xset -dpms
+
+# Ukryj kursor
+unclutter -idle 5 &
+
+# Czekaj na sieć
+sleep 5
+
+# Kiosk Chromium z Home Assistant
+chromium-browser \
+  --kiosk \
+  --noerrdialogs \
+  --disable-infobars \
+  --no-first-run \
+  --disable-session-crashed-bubble \
+  --disable-pinch \
+  --overscroll-history-navigation=0 \
+  "{{HA_URL}}" &
