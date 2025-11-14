@@ -1,0 +1,76 @@
+# Wyoming Satellite Configuration
+# Auto-generated from config.env by install.sh
+# Documentation: https://github.com/rhasspy/wyoming-satellite
+
+# Microphone settings
+microphone:
+  # Leave empty for auto-detection, or specify ALSA device (e.g., "plughw:CARD=Device,DEV=0")
+  device: "{{MICROPHONE_DEVICE}}"
+  # Audio format
+  sample_rate: 16000
+  sample_width: 2
+  channels: 1
+
+# Speaker settings (for TTS playback)
+speaker:
+  # Leave empty for auto-detection, or specify ALSA device
+  device: "{{SPEAKER_DEVICE}}"
+  sample_rate: 22050
+  sample_width: 2
+  channels: 1
+
+# Wake word detection (local on RPi)
+wake:
+  # Available wake words: alexa, hey_jarvis, hey_mycroft, hey_rhasspy, ok_nabu
+  # You can also add custom wake words
+  uri: "{{WAKE_WORD_MODEL}}"
+  
+# Voice Activity Detection
+vad:
+  enabled: true
+
+# Wyoming server settings (connects to Home Assistant)
+# This makes RPi act as a satellite - it detects wake word and records audio,
+# then sends it to HA for STT processing. HA sends back TTS audio to play.
+server:
+  uri: "tcp://0.0.0.0:10700"
+
+# Home Assistant Wyoming integration settings
+# The satellite will connect to HA's Wyoming server
+# Configure this in HA: Settings → Devices & Services → Add Integration → Wyoming Protocol
+wyoming:
+  # Home Assistant Wyoming server URI
+  # Format: tcp://HA_IP:PORT (default Wyoming port is 10700)
+  satellite:
+    uri: "{{HA_WYOMING_URI}}"
+    
+# Audio processing
+audio:
+  # Noise suppression (helps with audio quality)
+  noise_suppression: true
+  # Auto gain control
+  auto_gain: true
+  # Echo cancellation
+  echo_cancellation: false
+
+# Event handling
+event:
+  # MQTT integration for publishing satellite events to HA
+  mqtt:
+    enabled: {{MQTT_ENABLED}}
+    host: "{{MQTT_BROKER}}"
+    port: {{MQTT_PORT}}
+    username: "{{MQTT_USER}}"
+    password: "{{MQTT_PASSWORD}}"
+    # Topic prefix for satellite events
+    topic_prefix: "wyoming/satellite/{{SATELLITE_NAME}}"
+    
+# Logging
+logging:
+  level: INFO
+  # Available levels: DEBUG, INFO, WARNING, ERROR
+
+# Satellite identification
+satellite:
+  name: "{{SATELLITE_NAME}}"
+  area: "{{SATELLITE_AREA}}"
